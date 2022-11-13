@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getAllPosts } from '../../redux/postsRedux';
+import { getAllPosts } from '../../redux/postsReducer';
 import { PostCard } from './PostCard';
 
 export function PostList() {
