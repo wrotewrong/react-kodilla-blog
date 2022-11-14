@@ -17,6 +17,7 @@ export function Post() {
   const handleCloseModal = () => setShowModal(false);
 
   const dispatch = useDispatch();
+
   const handleRemovePost = () => {
     dispatch(removePost(id));
   };
@@ -74,7 +75,7 @@ export function Post() {
             <span className='fw-bold'>Published: </span>
             {post.publishedDate}
           </p>
-          <p>{post.shortDescription}</p>
+          <p>{post.content}</p>
         </div>
       </>
     );
