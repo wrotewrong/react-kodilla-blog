@@ -3,6 +3,10 @@ import { TextArea } from '../common/TextArea';
 import { TextInput } from '../common/TextInput';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export function PostForm({ action, actionText, ...props }) {
   const [title, setTitle] = useState(props.title ? props.title : '');
@@ -36,13 +40,14 @@ export function PostForm({ action, actionText, ...props }) {
         placeholder='Enter author'
         type='text'
       ></TextInput>
-      <TextInput
-        value={publishedDate}
-        onChange={(e) => setDate(e.target.value)}
-        id='Published'
-        placeholder='Enter date'
-        type='text'
-      ></TextInput>
+      <p className='mb-1'>Published</p>
+      <DatePicker
+        className='mb-3'
+        selected={publishedDate}
+        onChange={(date) => {
+          setDate(date);
+        }}
+      ></DatePicker>
       <TextArea
         value={shortDescription}
         onChange={(e) => setDescription(e.target.value)}
@@ -50,13 +55,14 @@ export function PostForm({ action, actionText, ...props }) {
         placeholder='Leave a comment here'
         rows='5'
       ></TextArea>
-      <TextArea
+      <p className='mb-1'>Main content</p>
+      <ReactQuill
+        className='mb-3'
+        theme='snow'
         value={content}
-        onChange={(e) => setContent(e.target.value)}
-        id='Main content'
+        onChange={setContent}
         placeholder='Leave a comment here'
-        rows='10'
-      ></TextArea>
+      ></ReactQuill>
       <Button type='submit' className='d-block'>
         {actionText}
       </Button>
