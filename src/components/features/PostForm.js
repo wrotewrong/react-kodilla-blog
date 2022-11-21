@@ -1,12 +1,14 @@
 import { Button } from 'react-bootstrap';
-import { TextArea } from '../common/TextArea';
-import { TextInput } from '../common/TextInput';
+// import { TextArea } from '../common/TextArea';
+// import { TextInput } from '../common/TextInput';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useForm } from 'react-hook-form';
+import { FormLabel, FormControl } from 'react-bootstrap';
 
 export function PostForm({ action, actionText, ...props }) {
   const [title, setTitle] = useState(props.title ? props.title : '');
@@ -19,51 +21,116 @@ export function PostForm({ action, actionText, ...props }) {
   );
   const [content, setContent] = useState(props.content ? props.content : '');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    action({ title, author, publishedDate, shortDescription, content });
+  const [contentError, setContentError] = useState(false);
+  const [dateError, setDateError] = useState(false);
+
+  const handleSubmit = () => {
+    setContentError(!content);
+    setDateError(!publishedDate);
+    if (content && publishedDate) {
+      action({ title, author, publishedDate, shortDescription, content });
+    }
   };
 
+  const {
+    register,
+    handleSubmit: validate,
+    formState: { errors },
+  } = useForm();
+
   return (
-    <form onSubmit={handleSubmit}>
-      <TextInput
+    <form onSubmit={validate(handleSubmit)}>
+      {/* <TextInput
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         id='Title'
         placeholder='Enter title'
         type='text'
-      ></TextInput>
-      <TextInput
+      ></TextInput> */}
+      <FormLabel className='mt-3'>Title</FormLabel>
+      <FormControl
+        {...register('title', { required: true, minLength: 4 })}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        type='text'
+        placeholder='Enter title'
+      />
+      {errors.title && (
+        <small className='d-block form-text text-danger mt-1'>
+          This field is required and must contain at least 4 characters
+        </small>
+      )}
+      {/* <TextInput
         value={author}
         onChange={(e) => setAuthor(e.target.value)}
         id='Author'
         placeholder='Enter author'
         type='text'
-      ></TextInput>
-      <p className='mb-1'>Published</p>
+      ></TextInput> */}
+      <FormLabel className='mt-3'>Author</FormLabel>
+      <FormControl
+        {...register('author', { required: true, minLength: 4 })}
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+        placeholder='Enter author'
+        type='text'
+      />
+      {errors.author && (
+        <small className='d-block form-text text-danger mt-1'>
+          This field is required and must contain at least 4 characters
+        </small>
+      )}
+
+      <p className='mb-1 mt-3'>Published</p>
       <DatePicker
-        className='mb-3'
+        className='px-2'
         selected={publishedDate}
         onChange={(date) => {
           setDate(date);
         }}
       ></DatePicker>
-      <TextArea
+      {dateError && (
+        <small className='d-block form-text text-danger mt-1'>
+          This field is required
+        </small>
+      )}
+
+      {/* <TextArea
         value={shortDescription}
         onChange={(e) => setDescription(e.target.value)}
         id='Short description'
         placeholder='Leave a comment here'
         rows='5'
-      ></TextArea>
-      <p className='mb-1'>Main content</p>
+      ></TextArea> */}
+      <FormLabel className='mt-3'>Short description</FormLabel>
+      <FormControl
+        {...register('description', { required: true, minLength: 20 })}
+        value={shortDescription}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder='Leave a comment here'
+        as='textarea'
+        rows={5}
+      />
+      {errors.description && (
+        <small className='d-block form-text text-danger mt-1'>
+          This field is required and must contain at least 20 characters
+        </small>
+      )}
+
+      <p className='mb-1 mt-3'>Main content</p>
       <ReactQuill
-        className='mb-3'
         theme='snow'
         value={content}
         onChange={setContent}
         placeholder='Leave a comment here'
       ></ReactQuill>
-      <Button type='submit' className='d-block'>
+      {contentError && (
+        <small className='d-block form-text text-danger mt-1'>
+          Content can't be empty
+        </small>
+      )}
+
+      <Button type='submit' className='d-block mt-3'>
         {actionText}
       </Button>
     </form>
