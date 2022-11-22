@@ -11,30 +11,30 @@ import { useForm } from 'react-hook-form';
 import { FormLabel, FormControl } from 'react-bootstrap';
 
 export function PostForm({ action, actionText, ...props }) {
-  const {
-    titleArg,
-    authorArg,
-    publishedDateArg,
-    shortDescriptionArg,
-    contentArg,
-  } = props;
+  const { title, author, publishedDate, shortDescription, content } = props;
 
-  const [title, setTitle] = useState(titleArg || '');
-  const [author, setAuthor] = useState(authorArg || '');
-  const [publishedDate, setDate] = useState(publishedDateArg || '');
-  const [shortDescription, setDescription] = useState(
-    shortDescriptionArg || ''
+  const [titleState, setTitle] = useState(title || '');
+  const [authorState, setAuthor] = useState(author || '');
+  const [publishedDateState, setDate] = useState(publishedDate || '');
+  const [shortDescriptionState, setDescription] = useState(
+    shortDescription || ''
   );
-  const [content, setContent] = useState(contentArg || '');
+  const [contentState, setContent] = useState(content || '');
 
   const [contentError, setContentError] = useState(false);
   const [dateError, setDateError] = useState(false);
 
   const handleSubmit = () => {
-    setContentError(!content);
-    setDateError(!publishedDate);
-    if (content && publishedDate) {
-      action({ title, author, publishedDate, shortDescription, content });
+    setContentError(!contentState);
+    setDateError(!publishedDateState);
+    if (contentState && publishedDateState) {
+      action({
+        title: titleState,
+        author: authorState,
+        publishedDate: publishedDateState,
+        shortDescription: shortDescriptionState,
+        content: contentState,
+      });
     }
   };
 
@@ -56,7 +56,7 @@ export function PostForm({ action, actionText, ...props }) {
       <FormLabel className='mt-3'>Title</FormLabel>
       <FormControl
         {...register('title', { required: true, minLength: 4 })}
-        value={title}
+        value={titleState}
         onChange={(e) => setTitle(e.target.value)}
         type='text'
         placeholder='Enter title'
@@ -76,7 +76,7 @@ export function PostForm({ action, actionText, ...props }) {
       <FormLabel className='mt-3'>Author</FormLabel>
       <FormControl
         {...register('author', { required: true, minLength: 4 })}
-        value={author}
+        value={authorState}
         onChange={(e) => setAuthor(e.target.value)}
         placeholder='Enter author'
         type='text'
@@ -90,7 +90,7 @@ export function PostForm({ action, actionText, ...props }) {
       <p className='mb-1 mt-3'>Published</p>
       <DatePicker
         className='px-2'
-        selected={publishedDate}
+        selected={publishedDateState}
         onChange={(date) => {
           setDate(date);
         }}
@@ -111,7 +111,7 @@ export function PostForm({ action, actionText, ...props }) {
       <FormLabel className='mt-3'>Short description</FormLabel>
       <FormControl
         {...register('description', { required: true, minLength: 20 })}
-        value={shortDescription}
+        value={shortDescriptionState}
         onChange={(e) => setDescription(e.target.value)}
         placeholder='Leave a comment here'
         as='textarea'
@@ -126,7 +126,7 @@ export function PostForm({ action, actionText, ...props }) {
       <p className='mb-1 mt-3'>Main content</p>
       <ReactQuill
         theme='snow'
-        value={content}
+        value={contentState}
         onChange={setContent}
         placeholder='Leave a comment here'
       ></ReactQuill>
