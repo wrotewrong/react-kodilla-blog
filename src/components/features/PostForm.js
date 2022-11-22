@@ -8,10 +8,13 @@ import 'react-quill/dist/quill.snow.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useForm } from 'react-hook-form';
-import { FormLabel, FormControl } from 'react-bootstrap';
+import { FormLabel, FormControl, FormSelect } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { getAllCategories } from '../../redux/categoriesReducer';
 
 export function PostForm({ action, actionText, ...props }) {
-  const { title, author, publishedDate, shortDescription, content } = props;
+  const { title, author, publishedDate, shortDescription, content, category } =
+    props;
 
   const [titleState, setTitle] = useState(title || '');
   const [authorState, setAuthor] = useState(author || '');
@@ -20,20 +23,26 @@ export function PostForm({ action, actionText, ...props }) {
     shortDescription || ''
   );
   const [contentState, setContent] = useState(content || '');
+  const [categoryState, setCategory] = useState(category || '');
 
   const [contentError, setContentError] = useState(false);
   const [dateError, setDateError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+
+  const allCategories = useSelector(getAllCategories);
 
   const handleSubmit = () => {
     setContentError(!contentState);
     setDateError(!publishedDateState);
-    if (contentState && publishedDateState) {
+    setCategoryError(!categoryState);
+    if (contentState && publishedDateState && categoryState) {
       action({
         title: titleState,
         author: authorState,
         publishedDate: publishedDateState,
         shortDescription: shortDescriptionState,
         content: contentState,
+        category: categoryState,
       });
     }
   };
@@ -98,6 +107,28 @@ export function PostForm({ action, actionText, ...props }) {
       {dateError && (
         <small className='d-block form-text text-danger mt-1'>
           This field is required
+        </small>
+      )}
+
+      <FormLabel className='mt-3'>Category</FormLabel>
+      <FormSelect
+        value={categoryState}
+        onChange={(e) => setCategory(e.target.value)}
+      >
+        <option value='' disabled>
+          Select category...
+        </option>
+        {allCategories.map((category) => {
+          return (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          );
+        })}
+      </FormSelect>
+      {categoryError && (
+        <small className='d-block form-text text-danger mt-1'>
+          You must pick a category
         </small>
       )}
 

@@ -72,9 +72,13 @@ export function Post() {
             <span className='fw-bold'>Author: </span>
             {post.author}
           </p>
-          <p>
+          <p className='mb-0'>
             <span className='fw-bold'>Published: </span>
             {dateToStr(post.publishedDate)}
+          </p>
+          <p>
+            <span className='fw-bold'>Category: </span>
+            {post.category}
           </p>
           <p dangerouslySetInnerHTML={{ __html: post.content }}></p>
         </div>

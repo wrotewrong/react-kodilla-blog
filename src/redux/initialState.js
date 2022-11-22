@@ -6,6 +6,7 @@ export const initialState = {
       shortDescription: 'Short description of the article...',
       content: 'Main content of the article',
       publishedDate: new Date('01/02/2022'),
+      category: 'Sport',
       author: 'Jane Smith',
     },
     {
@@ -14,6 +15,7 @@ export const initialState = {
       shortDescription: 'Short description of the article...',
       content: 'Main content of the article',
       publishedDate: new Date('02/02/2022'),
+      category: 'Movies',
       author: 'John Smith',
     },
     {
@@ -22,6 +24,7 @@ export const initialState = {
       shortDescription: 'Short description of the article...',
       content: 'Main content of the article',
       publishedDate: new Date('03/02/2022'),
+      category: 'News',
       author: 'John Doe',
     },
     {
@@ -30,7 +33,9 @@ export const initialState = {
       shortDescription: 'Short description of the article...',
       content: 'Main content of the article',
       publishedDate: new Date('04/02/2022'),
+      category: 'Sport',
       author: 'Jane Doe',
     },
   ],
+  categories: ['Sport', 'News', 'Movies'],
 };
