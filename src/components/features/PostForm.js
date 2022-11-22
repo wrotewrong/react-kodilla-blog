@@ -11,15 +11,21 @@ import { useForm } from 'react-hook-form';
 import { FormLabel, FormControl } from 'react-bootstrap';
 
 export function PostForm({ action, actionText, ...props }) {
-  const [title, setTitle] = useState(props.title ? props.title : '');
-  const [author, setAuthor] = useState(props.author ? props.author : '');
-  const [publishedDate, setDate] = useState(
-    props.publishedDate ? props.publishedDate : ''
-  );
+  const {
+    titleArg,
+    authorArg,
+    publishedDateArg,
+    shortDescriptionArg,
+    contentArg,
+  } = props;
+
+  const [title, setTitle] = useState(titleArg || '');
+  const [author, setAuthor] = useState(authorArg || '');
+  const [publishedDate, setDate] = useState(publishedDateArg || '');
   const [shortDescription, setDescription] = useState(
-    props.shortDescription ? props.shortDescription : ''
+    shortDescriptionArg || ''
   );
-  const [content, setContent] = useState(props.content ? props.content : '');
+  const [content, setContent] = useState(contentArg || '');
 
   const [contentError, setContentError] = useState(false);
   const [dateError, setDateError] = useState(false);
