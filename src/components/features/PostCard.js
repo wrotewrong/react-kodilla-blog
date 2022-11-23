@@ -20,7 +20,7 @@ export function PostCard({ title, author, date, id, description, category }) {
           {category}
         </p>
         <p>{description}</p>
-        <Link to={`post/${id}`}>
+        <Link to={`/post/${id}`}>
           <Button>Read more</Button>
         </Link>
       </div>

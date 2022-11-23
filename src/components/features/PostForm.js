@@ -1,6 +1,4 @@
 import { Button } from 'react-bootstrap';
-// import { TextArea } from '../common/TextArea';
-// import { TextInput } from '../common/TextInput';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
@@ -12,10 +10,16 @@ import { FormLabel, FormControl, FormSelect } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { getAllCategories } from '../../redux/categoriesReducer';
 
-export function PostForm({ action, actionText, ...props }) {
-  const { title, author, publishedDate, shortDescription, content, category } =
-    props;
-
+export function PostForm({
+  action,
+  actionText,
+  title,
+  author,
+  publishedDate,
+  shortDescription,
+  content,
+  category,
+}) {
   const [titleState, setTitle] = useState(title || '');
   const [authorState, setAuthor] = useState(author || '');
   const [publishedDateState, setDate] = useState(publishedDate || '');
@@ -55,13 +59,6 @@ export function PostForm({ action, actionText, ...props }) {
 
   return (
     <form onSubmit={validate(handleSubmit)}>
-      {/* <TextInput
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        id='Title'
-        placeholder='Enter title'
-        type='text'
-      ></TextInput> */}
       <FormLabel className='mt-3'>Title</FormLabel>
       <FormControl
         {...register('title', { required: true, minLength: 4 })}
@@ -75,13 +72,7 @@ export function PostForm({ action, actionText, ...props }) {
           This field is required and must contain at least 4 characters
         </small>
       )}
-      {/* <TextInput
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-        id='Author'
-        placeholder='Enter author'
-        type='text'
-      ></TextInput> */}
+
       <FormLabel className='mt-3'>Author</FormLabel>
       <FormControl
         {...register('author', { required: true, minLength: 4 })}
@@ -132,13 +123,6 @@ export function PostForm({ action, actionText, ...props }) {
         </small>
       )}
 
-      {/* <TextArea
-        value={shortDescription}
-        onChange={(e) => setDescription(e.target.value)}
-        id='Short description'
-        placeholder='Leave a comment here'
-        rows='5'
-      ></TextArea> */}
       <FormLabel className='mt-3'>Short description</FormLabel>
       <FormControl
         {...register('description', { required: true, minLength: 20 })}
